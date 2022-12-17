@@ -7,7 +7,6 @@ const conn = mysql.createPool({
     database: 'testapi',
     host: 'localhost',
     port: '3306'
-    
 })
 
 let db = {}
@@ -31,6 +30,22 @@ db.class = (classid) => {
 db.roll = (roll) => {
     return new Promise((resolve, reject) => {
         conn.query('SELECT * FROM student WHERE roll = ?',[roll], (err, results) => {
+            if(err) return reject(err)
+            return resolve(results)
+        })
+    })
+}
+db.add = (data) => {
+    return new Promise((resolve, reject) => {
+        conn.query('INSERT INTO student SET ?', [data], (err, results) =>{
+            if(err) return reject(err)
+            return resolve(results)
+        })
+    })
+}
+db.delete = (roll) => {
+    return new Promise((resolve, reject) => {
+        conn.query('DELETE FROM student WHERE roll = ?', roll, (err, results) => {
             if(err) return reject(err)
             return resolve(results)
         })
